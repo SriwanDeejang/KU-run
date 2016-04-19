@@ -249,6 +249,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Double.toString(buildLatDoubles[i]),
                     Double.toString(buildLngDoubles[i]));
 
+
+
         }   // for
 
 
