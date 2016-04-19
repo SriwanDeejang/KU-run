@@ -194,6 +194,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void createAllMarker() {
 
+
         mMap.clear();   // Delete All Marker
 
         //for user
