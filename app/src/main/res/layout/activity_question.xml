@@ -26,7 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/textView11" />
+            android:id="@+id/textView11"
+            android:textSize="30sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -40,7 +41,7 @@
             android:layout_height="wrap_content"
             android:text="New Text"
             android:id="@+id/textView10"
-            android:textSize="20 sp" />
+            android:textSize="20sp" />
 
         <RadioGroup
             android:layout_width="match_parent"
@@ -76,7 +77,8 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New Button"
+        android:text="Answer"
         android:id="@+id/button4"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        android:onClick="clickAnswer" />
 </RelativeLayout>
