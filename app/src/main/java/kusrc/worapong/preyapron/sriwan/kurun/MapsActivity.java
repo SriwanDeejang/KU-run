@@ -343,6 +343,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 intent.putExtra("Icon", intIcon);
                 startActivity(intent);
 
+
                 dialogInterface.dismiss();
 
             }
