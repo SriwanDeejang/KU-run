@@ -133,10 +133,10 @@ public class SignUpActivity extends AppCompatActivity {
         builder.setIcon(findAvata(avataString));
         builder.setTitle(nameString + " " + surnameString);
         builder.setMessage("โปรดตรวจข้อมูล" + "\n" +
-        getResources().getString(R.string.ID_Student) + " " + idSTUString + "\n" +
-        getResources().getString(R.string.Year) + " " + yearString + "\n" +
-        getResources().getString(R.string.User) + " " + userString + "\n" +
-        getResources().getString(R.string.Password) + " " + passwordString);
+                getResources().getString(R.string.ID_Student) + " " + idSTUString + "\n" +
+                getResources().getString(R.string.Year) + " " + yearString + "\n" +
+                getResources().getString(R.string.User) + " " + userString + "\n" +
+                getResources().getString(R.string.Password) + " " + passwordString);
 
         builder.setPositiveButton("บันทึก", new DialogInterface.OnClickListener() {
             @Override
