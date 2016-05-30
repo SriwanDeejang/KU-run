@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -44,12 +45,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String[] resultStrings;
     private double[] buildLatDoubles = {13.12362768,13.12512183,13.12090057,13.11748381};
     private double[] buildLngDoubles = {100.91835022,100.9192729,100.91940165,100.92124701};
+    private boolean[] baseStatus = {true, true, true, true};
     private boolean myStatus = true;
+    private int indexBuildAnInt;
+    String[] baseStrings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.my_map);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -63,7 +67,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         criteria.setBearingRequired(false);
         resultStrings = getIntent().getStringArrayExtra("Result");
 
+        indexBuildAnInt = Integer.parseInt(resultStrings[8]);
+        Log.d("30MayV1", "ฐานที่ต้องลุย ฐานที่ ==> " + indexBuildAnInt);
+
     }   // Main Method
+
+    public void clickHistoryListview(View view) {
+        startActivity(new Intent(MapsActivity.this, HistoryListView.class));
+    }
 
     //Create Inner Class
     public class SynLatLngAllUser extends AsyncTask<Void, Void, String> {
@@ -157,9 +168,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         locationManager.removeUpdates(locationListener);
 
-        //นี่คือค่าเริ่มต้นของ Map ถ้าไม่ได้ต่อ GPS หรือ Net
-        myLatADouble = 13.668066;
-        myLngADouble = 100.622454;
+        //นี่คือค่าเริ่มต้นของ Map ถ้าไม่ได้ต่อ GPS หรือ Net กำหนด ริมมหาลัย
+        myLatADouble = 13.12405607;
+        myLngADouble = 100.91727734;
 
         Location networkLocation = findLocation(LocationManager.NETWORK_PROVIDER, "Cannot Connected Internet");
         if (networkLocation != null) {
@@ -244,7 +255,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Create Marker Building
 
 
-        String[] baseStrings = {"ด่านที่ 1", "ด่านที่ 2", "ด่านที่ 3", "ด่านที่ 4"};
+        baseStrings =new String[] {"ด่านที่ 1", "ด่านที่ 2", "ด่านที่ 3", "ด่านที่ 4"};
         int[] iconBaseInts = {5,6,7,8};
 
         for (int i=0;i<baseStrings.length;i++) {
@@ -315,15 +326,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        //Find Distance
-        double myDistance = distance(myLatADouble, myLngADouble,
-                buildLatDoubles[0], buildLngDoubles[0]);
-        Log.d("7MayV1", "myDistance กับ ฐานที่ 1 ==> " + myDistance);
-        if (myDistance <= 10 && myStatus) {
-            myAlert("ฐานที่ 1", R.drawable.base1);
-        }
+
+        checkBaseDistance();
 
     }   // update
+
+    private void checkBaseDistance() {
+
+        double myDistance = distance(myLatADouble, myLngADouble,
+                buildLatDoubles[indexBuildAnInt], buildLngDoubles[indexBuildAnInt]);
+
+        Log.d("30MayV1", "ระยะห่าง กับ " + baseStrings[indexBuildAnInt] + " ==>> " + myDistance);
+
+        if ((myDistance <= 10 && myStatus) && baseStatus[indexBuildAnInt]) {
+            myAlert(baseStrings[indexBuildAnInt], R.drawable.base1);
+            baseStatus[indexBuildAnInt] = false;
+        }
+
+
+    }   // checkBaseDistance
 
     private void myAlert(final String strMessage,
                          final int intIcon) {
@@ -339,6 +360,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onClick(DialogInterface dialogInterface, int i) {
 
                 Intent intent = new Intent(MapsActivity.this, QuestionActivity.class);
+                intent.putExtra("Result", resultStrings);
                 intent.putExtra("Base", strMessage);
                 intent.putExtra("Icon", intIcon);
                 startActivity(intent);
